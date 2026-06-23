@@ -1,0 +1,15 @@
+# Local working notes — never pushed
+notes/
+
+# OS / editor cruft
+.DS_Store
+*.swp
+.vscode/
+.idea/
+
+# deps / build (in case we add a TS test project later)
+node_modules/
+dist/
+target/
+.env
+.env.*
