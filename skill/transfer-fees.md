@@ -37,11 +37,15 @@ import { generateKeyPairSigner } from "@solana/kit";
 
 const mint = await generateKeyPairSigner();
 
-// Describe the extension so the account is sized correctly.
+// Describe the extension so the account is sized correctly. The TransferFeeConfig
+// struct mirrors the on-chain layout, so every field (incl. the u64s) must be set:
+// a withheld-amount accumulator plus an "older" and "newer" fee schedule.
 const transferFeeExtension = extension("TransferFeeConfig", {
-  transferFeeBasisPoints: 150,          // 1.5% (100 bps = 1%)
-  maximumFee: 5_000_000n,               // cap per transfer, in base units
-  // authorities are set by the Initialize instruction below
+  transferFeeConfigAuthority: payer.address, // may change the rate later
+  withdrawWithheldAuthority: payer.address,  // may harvest/withdraw fees
+  withheldAmount: 0n,
+  olderTransferFee: { epoch: 0n, maximumFee: 5_000_000n, transferFeeBasisPoints: 150 },
+  newerTransferFee: { epoch: 0n, maximumFee: 5_000_000n, transferFeeBasisPoints: 150 }, // 150 bps = 1.5%
 });
 
 const space = BigInt(getMintSize([transferFeeExtension]));

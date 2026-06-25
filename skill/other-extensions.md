@@ -32,11 +32,25 @@ const metadataPointer = extension("MetadataPointer", {
 
 // Variable length: size the ACCOUNT for base + pointer, but fund RENT for the max future size.
 const space = BigInt(getMintSize([metadataPointer]));
+// Build the TokenMetadata with the largest expected values to compute MAX size.
+// All fields are required for the descriptor to encode (incl. additionalMetadata).
 const maxMetadata = extension("TokenMetadata", {
-  name: "My Token", symbol: "MTK", uri: "https://example.com/meta.json", /* worst-case sizes */
+  updateAuthority: payer.address,
+  mint: mint.address,
+  name: "My Token",
+  symbol: "MTK",
+  uri: "https://example.com/meta.json",
+  additionalMetadata: new Map<string, string>(),
 });
 const maxSpace = BigInt(getMintSize([metadataPointer, maxMetadata]));
 const rent = await rpc.getMinimumBalanceForRentExemption(maxSpace).send(); // fund for MAX, not base
+
+// Then, in one transaction (order matters):
+//   getCreateAccountInstruction({ ... space, programAddress: TOKEN_2022_PROGRAM_ADDRESS })
+//   getInitializeMetadataPointerInstruction({ mint: mint.address, authority: payer.address, metadataAddress: mint.address })
+//   getInitializeMintInstruction({ mint: mint.address, decimals, mintAuthority, freezeAuthority })
+//   getInitializeTokenMetadataInstruction({ metadata: mint.address, updateAuthority: payer.address,
+//     mint: mint.address, mintAuthority: payer /* signer */, name, symbol, uri })
 ```
 
 **Footguns**

@@ -9,7 +9,7 @@
 
 | Concern | Legacy (what models default to) | Modern 2026 (use this) |
 | --- | --- | --- |
-| Core SDK | `@solana/web3.js` (v1, maintenance mode) | `@solana/kit` (formerly web3.js v2; v2.0 shipped Dec 2024, v3.x now exists) |
+| Core SDK | `@solana/web3.js` (v1, maintenance mode) | `@solana/kit` (formerly web3.js v2; now at **v6.x** in 2026) |
 | Token client | `@solana/spl-token` | `@solana-program/token-2022` (Codama-generated, Kit-native) |
 | System program | `SystemProgram.createAccount` | `getCreateAccountInstruction` (`@solana-program/system`) |
 | RPC | `new Connection(url)` | `createSolanaRpc(url)` + `createSolanaRpcSubscriptions(wsUrl)` |
@@ -28,6 +28,11 @@ you are on the legacy path. The modern path uses `get…Instruction` and `@solan
 ```bash
 npm install @solana/kit @solana-program/token-2022 @solana-program/system
 ```
+
+> **Version pairing matters.** `@solana-program/token-2022` (currently v0.9.x) declares a **peer
+> dependency on `@solana/kit@^6`**. Pinning an older Kit (e.g. v2) causes an `ERESOLVE` peer conflict
+> on install. Let npm resolve the latest of each, or pin `@solana/kit@^6`. The `@solana-program/*`
+> clients are still pre-1.0, so always check exported symbol names against your installed version.
 
 ## The canonical transaction pattern (`@solana/kit`)
 

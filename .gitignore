@@ -1,6 +1,9 @@
 # Local working notes — never pushed
 notes/
 
+# Local verification harness — run to prove recipes, promoted to examples/ once green
+verify/
+
 # OS / editor cruft
 .DS_Store
 *.swp
