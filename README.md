@@ -47,13 +47,18 @@ token-extensions-skill/
 │   ├── confidential-transfers.md # private amounts + auditor-key compliance
 │   ├── other-extensions.md       # metadata, permanent delegate, non-transferable, …
 │   └── resources.md              # verified sources + program IDs
+├── agents/
+│   └── token-extensions-architect.md  # specialist agent that drives the decision flow
+├── commands/
+│   └── design-token.md           # /design-token — idea → extension plan + scaffold
 ├── install.sh
 ├── LICENSE                       # MIT
 └── README.md
 ```
 
 `SKILL.md` is the only file the agent reads up front; it routes to the rest on demand
-(token-efficient progressive loading).
+(token-efficient progressive loading). The `agents/` and `commands/` folders are optional companions —
+the skill works fully on its own.
 
 ## Install
 
@@ -75,6 +80,11 @@ Once installed, ask your agent naturally — the skill loads when the task touch
 - *"Add a 1% transfer fee to a new Token-2022 mint using `@solana/kit`."*
 - *"Should I use a transfer hook or confidential transfers for private payroll?"*
 - *"My mint with metadata won't initialize — what's wrong with the instruction order?"*
+
+Or use the companions installed alongside the skill:
+- **`/design-token <idea>`** — a guided walkthrough from a plain-language idea to an extension plan +
+  2026-stack scaffold (e.g. `/design-token private payroll token`).
+- **`token-extensions-architect`** — a specialist agent that runs the architecture-first flow for you.
 
 ## A note on accuracy
 

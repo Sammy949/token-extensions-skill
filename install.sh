@@ -8,8 +8,11 @@ set -euo pipefail
 
 # --- config ---------------------------------------------------------------
 SKILL_NAME="token-extensions"
-SKILLS_DIR="${HOME}/.claude/skills"
+CLAUDE_DIR="${HOME}/.claude"
+SKILLS_DIR="${CLAUDE_DIR}/skills"
 TARGET_DIR="${SKILLS_DIR}/${SKILL_NAME}"
+AGENTS_DIR="${CLAUDE_DIR}/agents"
+COMMANDS_DIR="${CLAUDE_DIR}/commands"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SOURCE_DIR="${SCRIPT_DIR}/skill"
 
@@ -75,9 +78,24 @@ mkdir -p "${SKILLS_DIR}"
 rm -rf "${TARGET_DIR}"                 # idempotent: clean replace
 mkdir -p "${TARGET_DIR}"
 cp -R "${SOURCE_DIR}/." "${TARGET_DIR}/"
+echo "${GREEN}✓${RESET} skill   → ${TARGET_DIR}"
+
+# Optional companion agent (one specialist over the skill).
+if [ -f "${SCRIPT_DIR}/agents/token-extensions-architect.md" ]; then
+  mkdir -p "${AGENTS_DIR}"
+  cp "${SCRIPT_DIR}/agents/token-extensions-architect.md" "${AGENTS_DIR}/"
+  echo "${GREEN}✓${RESET} agent   → ${AGENTS_DIR}/token-extensions-architect.md"
+fi
+
+# Optional companion command (/design-token).
+if [ -f "${SCRIPT_DIR}/commands/design-token.md" ]; then
+  mkdir -p "${COMMANDS_DIR}"
+  cp "${SCRIPT_DIR}/commands/design-token.md" "${COMMANDS_DIR}/"
+  echo "${GREEN}✓${RESET} command → ${COMMANDS_DIR}/design-token.md  (/design-token)"
+fi
 
 echo
-echo "${GREEN}✓ Installed${RESET} to ${TARGET_DIR}"
+echo "${GREEN}✓ Installed.${RESET}"
 echo
 echo "Try asking your agent:"
 echo "  ${DIM}\"Design a KYC-gated stablecoin with Token Extensions\"${RESET}"

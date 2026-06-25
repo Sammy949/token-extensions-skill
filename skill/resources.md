@@ -12,7 +12,8 @@ prefer these over older blog posts — the API changed with the move to `@solana
   https://github.com/anza-xyz/kit (see `examples/` for canonical transaction patterns).
 - "Meet Kit" announcement (Anza): https://www.anza.xyz/blog/meet-kit-the-new-solana-javascript-sdk
 - `@solana-program/token-2022` (Codama/Kit client): https://github.com/solana-program/token-2022
-  (npm: `@solana-program/token-2022`). The JS client lives under `clients/js`.
+  (npm: `@solana-program/token-2022`, currently **v0.9.x** — pre-1.0, so confirm exact exported symbol
+  names against your installed version). The JS client lives under `clients/js`.
 - `@solana-program/system` (for `getCreateAccountInstruction`): npm `@solana-program/system`.
 - Legacy (for migration reference only): `@solana/web3.js` v1, `@solana/spl-token`.
 - `gill` — a higher-level Kit-based wrapper (Helius) that bundles the Token-2022 client:
