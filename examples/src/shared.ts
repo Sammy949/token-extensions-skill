@@ -13,9 +13,10 @@ import {
   appendTransactionMessageInstructions,
   signTransactionMessageWithSigners,
   getSignatureFromTransaction,
+  assertIsTransactionWithBlockhashLifetime,
   lamports,
   type KeyPairSigner,
-  type IInstruction,
+  type Instruction,
 } from "@solana/kit";
 
 // Defaults to a local validator. Override for devnet:
@@ -40,7 +41,7 @@ export async function fundedSigner(): Promise<KeyPairSigner> {
 
 /** Build → sign → send a v0 transaction. Fetch the blockhash as late as possible. */
 export async function sendInstructions(
-  instructions: IInstruction[],
+  instructions: Instruction[],
   feePayer: KeyPairSigner,
 ): Promise<string> {
   const { value: latestBlockhash } = await rpc.getLatestBlockhash().send();
@@ -51,6 +52,7 @@ export async function sendInstructions(
     (tx) => appendTransactionMessageInstructions(instructions, tx),
   );
   const signed = await signTransactionMessageWithSigners(message);
+  assertIsTransactionWithBlockhashLifetime(signed); // narrows lifetime for the sender
   const signature = getSignatureFromTransaction(signed);
   await sendAndConfirmTransaction(signed, { commitment: "confirmed" });
   return signature;

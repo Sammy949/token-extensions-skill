@@ -51,6 +51,7 @@ import {
   appendTransactionMessageInstructions,
   signTransactionMessageWithSigners,
   getSignatureFromTransaction,
+  assertIsTransactionWithBlockhashLifetime,
 } from "@solana/kit";
 
 // 1. Connect (HTTP for requests, WS for confirmation subscriptions)
@@ -73,6 +74,7 @@ async function sendInstructions(instructions, feePayer = payer) {
   );
 
   const signedTransaction = await signTransactionMessageWithSigners(message);
+  assertIsTransactionWithBlockhashLifetime(signedTransaction); // narrows the type for the sender
   const signature = getSignatureFromTransaction(signedTransaction);
   await sendAndConfirmTransaction(signedTransaction, { commitment: "confirmed" });
   return signature;
