@@ -10,9 +10,12 @@ verify/
 .vscode/
 .idea/
 
-# deps / build (in case we add a TS test project later)
+# deps / build
 node_modules/
 dist/
 target/
 .env
 .env.*
+
+# local validator ledger (created by `solana-test-validator -r`)
+test-ledger/

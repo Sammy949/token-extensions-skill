@@ -51,6 +51,9 @@ token-extensions-skill/
 │   └── token-extensions-architect.md  # specialist agent that drives the decision flow
 ├── commands/
 │   └── design-token.md           # /design-token — idea → extension plan + scaffold
+├── examples/                     # runnable, on-chain-verified recipes (kit v6)
+│   ├── create-mint-with-transfer-fee.ts
+│   └── create-mint-with-metadata.ts
 ├── install.sh
 ├── LICENSE                       # MIT
 └── README.md
@@ -85,6 +88,19 @@ Or use the companions installed alongside the skill:
 - **`/design-token <idea>`** — a guided walkthrough from a plain-language idea to an extension plan +
   2026-stack scaffold (e.g. `/design-token private payroll token`).
 - **`token-extensions-architect`** — a specialist agent that runs the architecture-first flow for you.
+
+## Verified, not just written
+
+The recipes in this skill were **run on a live validator**, not just written from memory. The
+[`examples/`](./examples) folder has runnable scripts that create these mints on-chain with the 2026
+stack (`@solana/kit` v6 + `@solana-program/token-2022`). Execution testing already caught and fixed
+real errors that unverified guidance carries — e.g. `@solana/kit` being at v6 (not v2/v3), and the
+exact `TransferFeeConfig` / `TokenMetadata` descriptor shapes. Run them yourself:
+
+```bash
+solana-test-validator -r          # terminal 1
+cd examples && npm install && npm run transfer-fee && npm run metadata   # terminal 2
+```
 
 ## A note on accuracy
 
