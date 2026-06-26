@@ -66,7 +66,7 @@ the skill works fully on its own.
 ## Install
 
 ```bash
-git clone https://github.com/<your-username>/token-extensions-skill.git
+git clone https://github.com/Sammy949/token-extensions-skill.git
 cd token-extensions-skill
 ./install.sh            # installs to ~/.claude/skills/token-extensions  (use -y to skip the prompt)
 ```
